@@ -74,10 +74,10 @@ return [
     | controller that use attribute that inherit \Dentro\Yalr\RouteAttribute
     */
 
-//    'web' => [
-//        /** @inject web * */
-//        App\Http\Routes\DefaultRoute::class,
-//    ],
+    'web' => [
+        /** @inject web * */
+        App\Http\Routes\DefaultRoute::class,
+    ],
     'auth' => [
         /** @inject auth * */
         App\Http\Controllers\Api\Internal\Auth\AuthController::class,
