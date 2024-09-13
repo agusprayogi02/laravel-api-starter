@@ -19,7 +19,7 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->responseMessages = [
-            '__invoke' => "Register principal successfully",
+            '__invoke' => "Register successfully",
         ];
     }
 

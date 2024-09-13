@@ -14,11 +14,11 @@ class RoleSeeder extends Seeder
             "guard_name" => "sanctum"
         ],
         [
-            "name" => "principal",
+            "name" => "guru",
             "guard_name" => "sanctum"
         ],
         [
-            "name" => "agent",
+            "name" => "user",
             "guard_name" => "sanctum"
         ],
     ];

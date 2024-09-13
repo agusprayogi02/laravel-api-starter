@@ -34,7 +34,7 @@ class RegisterService extends BaseService
 
         // Assign Role
         $role = Role::query()
-            ->where('name', 'principal')
+            ->where('name', 'guru')
             ->first();
 
         $user->assignRole($role);
