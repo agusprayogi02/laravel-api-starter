@@ -81,7 +81,7 @@ class *CLASS_NAME*Controller extends Controller
      * @throws RestfulApiException
      */
     #[Put('{*SNAKE_NAME*}', name: 'update')]
-    public function update(Request $request, *CLASS_NAME* $*SNAKE_NAME*, StudentService $service)
+    public function update(Request $request, *CLASS_NAME* $*SNAKE_NAME*, *CLASS_NAME*Service $service)
     {
         $service->updateDataById($*SNAKE_NAME*, $request->post());
 

@@ -101,8 +101,8 @@ class GenerateApiControllerCommand extends Command
         return [
             'NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_controller_dir", "app/Http/Controllers/Api/Internal"))) . $namespace,
             'RESOURCE_NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_resource_dir", "app/Http/Resources"))) . "\\" . str_replace("/", "\\", $singularClassName),
-            'PREFIX_NAME' => str_replace("/", "\\", strtolower($singularClassName)),
-            'ROUTE_NAME' => str_replace("/","." ,strtolower($singularClassName)),
+            'PREFIX_NAME' => strtolower($singularClassName),
+            'ROUTE_NAME' => str_replace("/", ".", strtolower($singularClassName)),
             'CLASS_NAME' => end($explodedClassName),
             'SNAKE_NAME' => strtolower(end($explodedClassName)),
             "SINGULAR_NAME" => str_replace("/", "\\", $singularClassName),
@@ -121,9 +121,9 @@ class GenerateApiControllerCommand extends Command
         $explodedClassName = explode("/", $className);
         $name = end($explodedClassName);
 
-        $this->targetPath = base_path( config("services.target_controller_dir","app/Http/Controllers/Api/Internal")) . "/$className" . "Controller.php";
-        $this->collectionPath = base_path( config("services.target_resource_dir","app/Http/Resources")) ."/". $className . "/" . $name . "ResourceCollection.php";
-        $this->resourcePath = base_path( config("services.target_resource_dir","app/Http/Resources")) ."/". $className . "/" . $name . "Resource.php";
+        $this->targetPath = base_path(config("services.target_controller_dir", "app/Http/Controllers/Api/Internal")) . "/$className" . "Controller.php";
+        $this->collectionPath = base_path(config("services.target_resource_dir", "app/Http/Resources")) . "/" . $className . "/" . $name . "ResourceCollection.php";
+        $this->resourcePath = base_path(config("services.target_resource_dir", "app/Http/Resources")) . "/" . $className . "/" . $name . "Resource.php";
 
         return $this;
     }
