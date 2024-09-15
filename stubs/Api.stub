@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Http\Controllers\Api\Internal\Master;
+
+use App\Exceptions\RestfulApiException;
+use App\Http\Controllers\Controller;
+use *RESOURCE_NAMESPACE*\*CLASS_NAME*Resource;
+use *RESOURCE_NAMESPACE*\*CLASS_NAME*ResourceCollection;
+use App\Models\*CLASS_NAME*;
+use App\Services\*SINGULAR_NAME*Service;
+use Dentro\Yalr\Attributes\Delete;
+use Dentro\Yalr\Attributes\Get;
+use Dentro\Yalr\Attributes\Name;
+use Dentro\Yalr\Attributes\Post;
+use Dentro\Yalr\Attributes\Prefix;
+use Dentro\Yalr\Attributes\Put;
+use Illuminate\Http\Request;
+
+#[Prefix('*PREFIX_NAME*')]
+#[Name('*ROUTE_NAME*', true, true)]
+class *CLASS_NAME*Controller extends Controller
+{
+    protected array $responseMessages;
+
+    public function __construct()
+    {
+        $this->responseMessages = [
+            'index' => 'Success Retrieving *CLASS_NAME*',
+            'store' => 'Success Create *CLASS_NAME*',
+            'show' => 'Success Retrieving *CLASS_NAME*',
+            'update' => 'Success Update *CLASS_NAME*',
+            'destroy' => 'Success Delete *CLASS_NAME*',
+        ];
+    }
+
+    /**
+     * @throws RestfulApiException
+     */
+    #[Get('/', name: 'index')]
+    public function index(*CLASS_NAME*Service $service)
+    {
+        $response = $service->getAllDataPaginated();
+
+        return $this->response(
+            new *CLASS_NAME*ResourceCollection($response),
+            $this->getResponseMessage(__FUNCTION__)
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @throws RestfulApiException
+    */
+    #[Post('', name: 'store')]
+    public function store(Request $request, *CLASS_NAME*Service $service)
+    {
+        $response = $service->addNewData(
+            requestedData: $request->post()
+        );
+
+        return $this->response(
+            new *CLASS_NAME*Resource($response),
+            $this->getResponseMessage(__FUNCTION__)
+        );
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    #[Get('{*SNAKE_NAME*}', name: 'show')]
+    public function show(*CLASS_NAME* $*SNAKE_NAME*)
+    {
+        return $this->response(
+            new *CLASS_NAME*Resource($*SNAKE_NAME*),
+            $this->getResponseMessage(__FUNCTION__)
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @throws RestfulApiException
+     */
+    #[Put('{*SNAKE_NAME*}', name: 'update')]
+    public function update(Request $request, *CLASS_NAME* $*SNAKE_NAME*, StudentService $service)
+    {
+        $service->updateDataById($*SNAKE_NAME*, $request->post());
+
+        return $this->response(
+            null,
+            $this->getResponseMessage(__FUNCTION__)
+        );
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    #[Delete('{*SNAKE_NAME*}', name: 'destroy')]
+    public function destroy(*CLASS_NAME* $*SNAKE_NAME*)
+    {
+        $*SNAKE_NAME*->delete();
+
+        return $this->response(
+            null,
+            $this->getResponseMessage(__FUNCTION__)
+        );
+    }
+}
