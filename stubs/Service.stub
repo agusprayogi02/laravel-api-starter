@@ -1,9 +1,46 @@
 <?php
 
 namespace *NAMESPACE*;
+
 use App\Contracts\Abstracts\BaseService;
+use *REQUEST_NAMESPACE*\Store*CLASS_NAME*Request;
+use *REQUEST_NAMESPACE*\Update*CLASS_NAME*Request;
+use App\Models\*CLASS_NAME*;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\QueryBuilder;
 
-class *CLASS_NAME* extends BaseService
+class *CLASS_NAME*Service extends BaseService
 {
+    public function getAllDataPaginated(): LengthAwarePaginator
+    {
+        return QueryBuilder::for(*CLASS_NAME*::class)
+            ->allowedFilters([])
+            ->allowedSorts([])
+            ->pagination();
+    }
 
+    public function addNewData(array $requestedData): int|Model
+    {
+        $validated = $this->validated($requestedData, new Store*CLASS_NAME*Request());
+
+        return *CLASS_NAME*::query()
+            ->create($validated);
+    }
+
+    public function updateDataById(Model|int|string $idOrModel, array $requestedData): int|Model
+    {
+        /* @var *CLASS_NAME* $idOrModel */
+        $validated = $this->validated($requestedData, new Update*CLASS_NAME*Request());
+
+        $idOrModel->update($validated);
+
+        return $idOrModel;
+    }
+
+    public function deleteDataById(Model|int|string $idOrModel): int
+    {
+        /* @var *CLASS_NAME* $idOrModel */
+        return $idOrModel->delete();
+    }
 }

@@ -25,7 +25,11 @@ class GenerateServiceCommand extends Command
 
     protected Filesystem $files;
     protected const STUB_PATH = __DIR__ . '/../../../stubs/Service.stub';
+    protected const STORE_REQ_PATH = __DIR__ . '/../../../stubs/StoreRequest.stub';
+    protected const UPDATE_REQ_PATH = __DIR__ . '/../../../stubs/UpdateRequest.stub';
     protected string $targetPath;
+    protected string $storeRequestPath;
+    protected string $updateRequestPath;
     protected string $singularClassName;
 
 
@@ -44,7 +48,7 @@ class GenerateServiceCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->setSingularClassName()
             ->setTargetFilePath()
@@ -56,6 +60,20 @@ class GenerateServiceCommand extends Command
             $this->info("File : {$this->targetPath} created");
         } else {
             $this->info("File : {$this->targetPath} already exits");
+        }
+
+        if (!$this->files->exists($this->storeRequestPath)) {
+            $this->files->put($this->storeRequestPath, $this->getTemplateStoreReqFileContent());
+            $this->info("File : {$this->storeRequestPath} created");
+        } else {
+            $this->info("File : {$this->storeRequestPath} already exits");
+        }
+
+        if (!$this->files->exists($this->updateRequestPath)) {
+            $this->files->put($this->updateRequestPath, $this->getTemplateUpdateReqFileContent());
+            $this->info("File : {$this->updateRequestPath} created");
+        } else {
+            $this->info("File : {$this->updateRequestPath} already exits");
         }
     }
 
@@ -76,13 +94,36 @@ class GenerateServiceCommand extends Command
 
         return [
             'NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_service_dir", "app/Services"))) . $namespace,
+            'REQUEST_NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_request_dir", "app/Http/Requests"))) . "\\" . str_replace("/", "\\", $singularClassName),
             'CLASS_NAME' => end($explodedClassName)
         ];
     }
 
-    private function getTemplateFileContent()
+    private function getTemplateFileContent(): array|false|string
     {
         $content = file_get_contents(self::STUB_PATH);
+
+        foreach ($this->getStubVariables() as $search => $replace) {
+            $content = str_replace("*$search*", $replace, $content);
+        }
+
+        return $content;
+    }
+
+    private function getTemplateStoreReqFileContent(): array|false|string
+    {
+        $content = file_get_contents(self::STORE_REQ_PATH);
+
+        foreach ($this->getStubVariables() as $search => $replace) {
+            $content = str_replace("*$search*", $replace, $content);
+        }
+
+        return $content;
+    }
+
+    private function getTemplateUpdateReqFileContent(): array|false|string
+    {
+        $content = file_get_contents(self::UPDATE_REQ_PATH);
 
         foreach ($this->getStubVariables() as $search => $replace) {
             $content = str_replace("*$search*", $replace, $content);
@@ -100,7 +141,12 @@ class GenerateServiceCommand extends Command
     private function setTargetFilePath(): self
     {
         $className = $this->singularClassName;
-        $this->targetPath = base_path( config("services.target_service_dir","app/Services")) . "/$className.php";
+        $explodedClassName = explode("/", $className);
+        $name = end($explodedClassName);
+
+        $this->targetPath = base_path( config("services.target_service_dir","app/Services")) . "/$className" . "Service.php";
+        $this->storeRequestPath = base_path( config("services.target_request_dir","app/Http/Requests")) ."/". $className . "/Store" . $name . "Request.php";
+        $this->updateRequestPath = base_path( config("services.target_request_dir","app/Http/Requests")) ."/". $className . "/Update" . $name . "Request.php";
 
         return $this;
     }
@@ -109,6 +155,9 @@ class GenerateServiceCommand extends Command
     {
         if (!$this->files->isDirectory(dirname($this->targetPath))) {
             $this->files->makeDirectory(dirname($this->targetPath), 0777, true, true);
+        }
+        if (!$this->files->isDirectory(dirname($this->storeRequestPath))) {
+            $this->files->makeDirectory(dirname($this->storeRequestPath), 0777, true, true);
         }
 
         return $this;
