@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Internal\Master;
+namespace *NAMESPACE*;
 
 use App\Exceptions\RestfulApiException;
 use App\Http\Controllers\Controller;
