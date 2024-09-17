@@ -14,7 +14,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create(Table::GEO_COUNTRIES->value, function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->char('iso_2', 2)->unique()->nullable();
             $table->char('iso_3', 3)->unique()->nullable();
             $table->char('iso_number', 3)->unique()->nullable();
@@ -44,8 +44,8 @@ return new class extends Migration {
         });
 
         Schema::create(Table::GEO_PROVINCES->value, function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
             $table->string('code', 100)->unique()->nullable();
             $table->string('name');
             $table->string('timezone', 100)->nullable();
@@ -62,9 +62,9 @@ return new class extends Migration {
         });
 
         Schema::create(Table::GEO_CITIES->value, function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
-            $table->foreignId('province_id')->constrained(Table::GEO_PROVINCES->value)->onDelete('restrict');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
+            $table->foreignUuid('province_id')->constrained(Table::GEO_PROVINCES->value)->onDelete('restrict');
             $table->string('code', 100)->unique()->nullable();
             $table->string('name');
             $table->string('timezone', 100)->nullable();
@@ -81,10 +81,10 @@ return new class extends Migration {
         });
 
         Schema::create(Table::GEO_DISTRICTS->value, function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
-            $table->foreignId('province_id')->constrained(Table::GEO_PROVINCES->value)->onDelete('restrict');
-            $table->foreignId('city_id')->constrained(Table::GEO_CITIES->value)->onDelete('restrict');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
+            $table->foreignUuid('province_id')->constrained(Table::GEO_PROVINCES->value)->onDelete('restrict');
+            $table->foreignUuid('city_id')->constrained(Table::GEO_CITIES->value)->onDelete('restrict');
             $table->string('code', 100)->unique()->nullable();
             $table->string('name');
             $table->string('timezone', 100)->nullable();
@@ -101,11 +101,11 @@ return new class extends Migration {
         });
 
         Schema::create(Table::GEO_SUB_DISTRICTS->value, function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
-            $table->foreignId('province_id')->constrained(Table::GEO_PROVINCES->value)->onDelete('restrict');
-            $table->foreignId('city_id')->constrained(Table::GEO_CITIES->value)->onDelete('restrict');
-            $table->foreignId('district_id')->constrained(Table::GEO_DISTRICTS->value)->onDelete('restrict');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('country_id')->constrained(Table::GEO_COUNTRIES->value)->onDelete('restrict');
+            $table->foreignUuid('province_id')->constrained(Table::GEO_PROVINCES->value)->onDelete('restrict');
+            $table->foreignUuid('city_id')->constrained(Table::GEO_CITIES->value)->onDelete('restrict');
+            $table->foreignUuid('district_id')->constrained(Table::GEO_DISTRICTS->value)->onDelete('restrict');
             $table->string('code', 100)->unique()->nullable();
             $table->string('name');
             $table->string('postal_code')->nullable();
@@ -122,15 +122,6 @@ return new class extends Migration {
             $table->index('name');
             $table->index('postal_code');
         });
-
-        // update users table
-//        Schema::table("users", function (Blueprint $table) {
-//            $table->foreign('country_id')->references('id')->on('geo_countries');
-//            $table->foreign('province_id')->references('id')->on('geo_provinces');
-//            $table->foreign('city_id')->references('id')->on('geo_cities');
-//            $table->foreign('district_id')->references('id')->on('geo_districts');
-//            $table->foreign('sub_district_id')->references('id')->on('geo_sub_districts');
-//        });
     }
 
     /**

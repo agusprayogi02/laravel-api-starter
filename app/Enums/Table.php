@@ -32,4 +32,5 @@ enum Table: string
     // General
     case ABOUT_US = 'about_us';
     case CONTACT_ME = 'contact_me';
+    case ADDRESS = 'addresses';
 }

@@ -3,14 +3,20 @@
 namespace App\Models\Geo;
 
 use App\Enums\Table;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Veelasky\LaravelHashId\Eloquent\HashableId;
 
+/**
+ * Model SubDistrict
+ *
+ * @property integer $id
+ * @property string $name
+ */
 class SubDistrict extends Model
 {
-    use HashableId, SoftDeletes;
+    use HasUuids, SoftDeletes;
 
     protected $table = Table::GEO_SUB_DISTRICTS->value;
 
@@ -20,8 +26,6 @@ class SubDistrict extends Model
         'timezone', 'locale',
         'latitude', 'longitude', 'altitude', 'geometry',
     ];
-
-    protected $appends = ['hash'];
 
     //== RELATIONSHIPS
 

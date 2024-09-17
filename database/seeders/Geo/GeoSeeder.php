@@ -9,6 +9,7 @@ use App\Models\Geo\Province;
 use App\Models\Geo\SubDistrict;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class GeoSeeder extends Seeder
 {
@@ -62,6 +63,7 @@ class GeoSeeder extends Seeder
                     if ($row[2] !== 'ISO3') {
                         $now = now();
                         $countries[] = [
+                            'id' => Str::uuid(),
                             'iso_3' => "{$row[2]}",
                             'iso_2' => "{$row[1]}",
                             'iso_number' => "{$row[5]}",
@@ -111,6 +113,7 @@ class GeoSeeder extends Seeder
                         if ($row[0] != 'id') {
                             $now = now();
                             $provinces[] = [
+                                'id' => Str::uuid(),
                                 'code' => "{$row[0]}",
                                 'country_id' => $country->id,
                                 'name' => "{$row[1]}",
@@ -154,6 +157,7 @@ class GeoSeeder extends Seeder
                         if ($province instanceof Province) {
                             $now = now();
                             $cities[] = [
+                                'id' => Str::uuid(),
                                 'code' => "{$row[0]}",
                                 'country_id' => $province->country_id,
                                 'province_id' => $province->id,
@@ -198,6 +202,7 @@ class GeoSeeder extends Seeder
                         if ($city instanceof City) {
                             $now = now();
                             $districts[] = [
+                                'id' => Str::uuid(),
                                 'code' => "{$row[0]}",
                                 'country_id' => $city->country_id,
                                 'province_id' => $city->province_id,
@@ -243,6 +248,7 @@ class GeoSeeder extends Seeder
                         if ($district instanceof District) {
                             $now = now();
                             $subDistricts[] = [
+                                'id' => Str::uuid(),
                                 'country_id' => $district->country_id,
                                 'province_id' => $district->province_id,
                                 'city_id' => $district->city_id,

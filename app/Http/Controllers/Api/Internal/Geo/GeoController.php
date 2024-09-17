@@ -16,8 +16,7 @@ use Dentro\Yalr\Attributes\Prefix;
 use Illuminate\Http\Request;
 
 #[Prefix('geo')]
-#[Name('geo', false, true)]
-#[Middleware('auth:sanctum')]
+#[Name('geo', true, true)]
 class GeoController extends Controller
 {
     protected array $responseMessages;
@@ -44,10 +43,10 @@ class GeoController extends Controller
         );
     }
 
-    #[Get('provinces/{country}', name: 'provinces')]
-    public function provinces(Country $country, GeoService $service): Response
+    #[Get('provinces', name: 'provinces')]
+    public function provinces(GeoService $service): Response
     {
-        $response = $service->getAllProvince($country->id);
+        $response = $service->getAllProvince();
 
         return $this->response(
             $response,
@@ -55,7 +54,7 @@ class GeoController extends Controller
         );
     }
 
-    #[Get('cities/{province}', name: 'provinces')]
+    #[Get('cities/{province}', name: 'cities')]
     public function cities(Province $province, GeoService $service): Response
     {
         $response = $service->getAllCity($province->id);
@@ -66,7 +65,7 @@ class GeoController extends Controller
         );
     }
 
-    #[Get('districts/{city}', name: 'provinces')]
+    #[Get('districts/{city}', name: 'districts')]
     public function districts(City $city, GeoService $service): Response
     {
         $response = $service->getAllDistrict($city->id);
@@ -77,7 +76,7 @@ class GeoController extends Controller
         );
     }
 
-    #[Get('sub-districts/{district}', name: 'provinces')]
+    #[Get('sub-districts/{district}', name: 'districts')]
     public function subDistricts(District $district, GeoService $service): Response
     {
         $response = $service->getAllSubDistrict($district->id);

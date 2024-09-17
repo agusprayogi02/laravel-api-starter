@@ -3,6 +3,7 @@
 namespace App\Models\Geo;
 
 use App\Enums\Table;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -17,7 +18,7 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  * */
 class Country extends Model
 {
-    use HashableId, SoftDeletes;
+    use HasUuids, SoftDeletes;
 
     protected $table = Table::GEO_COUNTRIES->value;
 
@@ -28,8 +29,6 @@ class Country extends Model
         'timezone', 'locale',
         'latitude', 'longitude', 'altitude', 'geometry',
     ];
-
-    protected $appends = ['hash'];
 
     //== RELATIONSHIPS
 

@@ -3,6 +3,7 @@
 namespace App\Models\Geo;
 
 use App\Enums\Table;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,11 +15,12 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  * Model Provinces
  *
  * @property string id
+ * @property string name
  *
  * */
 class Province extends Model
 {
-    use HashableId, SoftDeletes;
+    use HasUuids, SoftDeletes;
 
     protected $table = Table::GEO_PROVINCES->value;
 
@@ -29,10 +31,8 @@ class Province extends Model
     ];
 
     protected $hidden = [
-        'id', 'country_id'
+        'country_id'
     ];
-
-    protected $appends = ['hash'];
 
     //== RELATIONSHIPS
 

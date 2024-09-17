@@ -14,30 +14,39 @@ class GeoService extends BaseService
 {
     public function getAllCountry(): Collection
     {
-        return Country::all();
+        return Country::query()
+            ->orderBy('name')
+            ->get();
     }
 
-    public function getAllProvince($countryId): Collection
+    public function getAllProvince(): Collection
     {
         return Province::query()
-            ->where('country_id', $countryId)->get();
+            ->orderBy('name')
+            ->get();
     }
 
     public function getAllCity($provinceId): Collection
     {
         return City::query()
-            ->where('province_id', $provinceId)->get();
+            ->where('province_id', $provinceId)
+            ->orderBy('name')
+            ->get();
     }
 
     public function getAllDistrict($cityId): Collection
     {
         return District::query()
-            ->where('city_id', $cityId)->get();
+            ->where('city_id', $cityId)
+            ->orderBy('name')
+            ->get();
     }
 
     public function getAllSubDistrict($districtId): Collection
     {
         return SubDistrict::query()
-            ->where('district_id', $districtId)->get();
+            ->where('district_id', $districtId)
+            ->orderBy('name')
+            ->get();
     }
 }

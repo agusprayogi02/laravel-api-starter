@@ -15,11 +15,12 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  * Model City
  *
  * @property string id
+ * @property string name
  *
  * */
 class City extends Model
 {
-    use HashableId, SoftDeletes;
+    use  HasUuids, SoftDeletes;
 
     protected $table = Table::GEO_CITIES->value;
 
@@ -30,10 +31,8 @@ class City extends Model
     ];
 
     protected $hidden = [
-        'id', 'country_id', 'province_id'
+        'country_id', 'province_id'
     ];
-
-    protected $appends = ['hash'];
 
     //== RELATIONSHIPS
 
