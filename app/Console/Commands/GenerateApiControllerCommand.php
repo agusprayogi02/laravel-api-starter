@@ -99,11 +99,19 @@ class GenerateApiControllerCommand extends Command
             $namespace = "\\" . implode("\\", $explodedNamespace);
         }
 
+        $prefix = "";
+        foreach ($explodedClassName as $item) {
+            $prefix .= Str::snake($item);
+            if ($item !== end($explodedClassName)) {
+                $prefix .= "/";
+            }
+        }
+
         return [
             'NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_controller_dir", "app/Http/Controllers/Api/Internal"))) . $namespace,
             'RESOURCE_NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_resource_dir", "app/Http/Resources"))) . "\\" . str_replace("/", "\\", $singularClassName),
-            'PREFIX_NAME' => Str::snake($singularClassName),
-            'ROUTE_NAME' => str_replace("/", ".", Str::snake($singularClassName)),
+            'PREFIX_NAME' => $prefix,
+            'ROUTE_NAME' => str_replace("/", ".", $prefix),
             'CLASS_NAME' => end($explodedClassName),
             'SNAKE_NAME' => Str::snake(end($explodedClassName)),
             "SINGULAR_NAME" => str_replace("/", "\\", $singularClassName),
