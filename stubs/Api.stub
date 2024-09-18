@@ -93,11 +93,12 @@ class *CLASS_NAME*Controller extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @throws RestfulApiException
      */
     #[Delete('{*SNAKE_NAME*}', name: 'destroy')]
-    public function destroy(*CLASS_NAME* $*SNAKE_NAME*)
+    public function destroy(*CLASS_NAME* $*SNAKE_NAME*, *CLASS_NAME*Service $service)
     {
-        $*SNAKE_NAME*->delete();
+        $service->deleteDataById($*SNAKE_NAME*);
 
         return $this->response(
             null,
