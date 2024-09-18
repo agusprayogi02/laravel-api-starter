@@ -17,13 +17,27 @@ class AuthService extends BaseService
     {
         $this->validated($requestedData, new AuthenticateRequest());
 
-        if (!Auth::guard("web")->attempt($this->getValidatedData())) {
+        $data = $this->getValidatedData();
+        if (filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
+            $data['email'] = $data['username'];
+            unset($data['username']);
+        }
+
+        if (!Auth::guard("web")->attempt($data)) {
             throw new RestfulApiException(ResponseCode::ERR_FORBIDDEN_ACCESS, "Invalid credentials");
         }
 
+        $user = auth()->user();
+        $user->load('roles');
+
         return [
-            "user" => $user = Auth::user(),
-            "token" => $user->createToken("personal_access_token")
+            "user" => $user,
+            "token" => $user->createToken("personal_access_token", expiresAt: now()->addWeek())
         ];
+    }
+
+    public function logout(): void
+    {
+        auth()->user()->currentAccessToken()->delete();
     }
 }

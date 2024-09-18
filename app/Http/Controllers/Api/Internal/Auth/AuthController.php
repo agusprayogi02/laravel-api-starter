@@ -54,4 +54,12 @@ class AuthController extends Controller
     {
         throw new RestfulApiException(ResponseCode::ERR_AUTHENTICATION, 'Tolong Login, dengan metode Post!');
     }
+
+    #[Post('/logout', name: "logout")]
+    public function logout(AuthService $service)
+    {
+        $service->logout();
+
+        return $this->response(null, $this->getResponseMessage(__FUNCTION__));
+    }
 }

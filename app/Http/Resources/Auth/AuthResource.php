@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Auth;
 
-use App\Models\User;
+use App\Http\Resources\Management\Roles\RoleResourceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +23,7 @@ class AuthResource extends JsonResource
             "username" => $user->username,
             "phone" => $user->phone,
             "email" => $user->email,
+            "roles" => new RoleResourceCollection($user->roles),
             "access_token" => $token
         ];
     }
