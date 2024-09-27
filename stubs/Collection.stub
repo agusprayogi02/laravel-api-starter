@@ -14,8 +14,8 @@ class *CLASS_NAME*ResourceCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return [
-            'data' => $this->collection,
-        ];
+        return $this->collection->map(
+               fn($item) => new *CLASS_NAME*Resource($item)
+           )->toArray();
     }
 }
