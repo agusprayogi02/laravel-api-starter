@@ -41,13 +41,13 @@ class BaseService implements BaseServiceInterface
 
     }
 
-//    /**
-//     * @throws MaasyaException
-//     */
-//    public function addNewData(array $requestedData): int|Model
-//    {
-//        throw new MaasyaException(ResponseCode::ERR_METHOD_NOT_IMPLEMENTED);
-//    }
+    /**
+     * @throws RestfulApiException
+     */
+    public function addNewData(array $requestedData): int|Model
+    {
+        throw new RestfulApiException(ResponseCode::ERR_METHOD_NOT_IMPLEMENTED);
+    }
 
     /**
      * @throws RestfulApiException
