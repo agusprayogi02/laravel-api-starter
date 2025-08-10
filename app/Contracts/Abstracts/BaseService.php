@@ -16,6 +16,7 @@ class BaseService implements BaseServiceInterface
 
 
     /**
+     * @throws LengthAwarePaginator
      * @throws RestfulApiException
      */
     public function getAllDataPaginated(): LengthAwarePaginator

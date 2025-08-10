@@ -15,7 +15,7 @@ interface BaseServiceInterface
 
     public function getDataById(int|string|Model $idOrModel): Model;
 
-//    public function addNewData(array $requestedData): int|Model;
+    public function addNewData(array $requestedData): int|Model;
 
     public function updateDataById(int|string|Model $idOrModel, array $requestedData): int|Model;
 

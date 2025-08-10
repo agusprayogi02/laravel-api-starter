@@ -148,6 +148,6 @@ return [
         'path' => storage_path('postman'),
 
         // File naming pattern (date will be appended)
-        'filename' => 'api_collection',
+        'filename' => 'api_collection.json',
     ],
 ];

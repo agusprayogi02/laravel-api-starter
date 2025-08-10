@@ -1,0 +1,10 @@
+### Login User
+POST {{base_url}}/auth
+Content-Type: application/json
+
+{
+  "username": "superadmin@gmail.com",
+  "password": "supseradmin"
+}
+
+###

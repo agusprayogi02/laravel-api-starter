@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Api\Internal\Geo;
 use App\Http\Controllers\Controller;
 use App\Http\Response;
 use App\Models\Geo\City;
-use App\Models\Geo\Country;
 use App\Models\Geo\District;
 use App\Models\Geo\Province;
 use App\Services\Geo\GeoService;
 use Dentro\Yalr\Attributes\Get;
-use Dentro\Yalr\Attributes\Middleware;
 use Dentro\Yalr\Attributes\Name;
 use Dentro\Yalr\Attributes\Prefix;
-use Illuminate\Http\Request;
 
 #[Prefix('geo')]
 #[Name('geo', true, true)]
@@ -76,7 +73,7 @@ class GeoController extends Controller
         );
     }
 
-    #[Get('sub-districts/{district}', name: 'districts')]
+    #[Get('sub-districts/{district}', name: 'sub-districts')]
     public function subDistricts(District $district, GeoService $service): Response
     {
         $response = $service->getAllSubDistrict($district->id);
