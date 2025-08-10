@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2ed72cce88a22d861ff1992f8ad80d1",
+    "content-hash": "d600fda50580b1ad00a0a05aa794f6ab",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -7000,75 +7000,6 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
-            "name": "webfox/laravel-backed-enums",
-            "version": "v2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webfox/laravel-backed-enums.git",
-                "reference": "cf3c70e0fe4c38b57223e927849bd162834b2ad4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webfox/laravel-backed-enums/zipball/cf3c70e0fe4c38b57223e927849bd162834b2ad4",
-                "reference": "cf3c70e0fe4c38b57223e927849bd162834b2ad4",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "^10.0 | ^11.0 | ^12.0",
-                "illuminate/contracts": "^10.0 | ^11.0 | ^12.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.18"
-            },
-            "require-dev": {
-                "larastan/larastan": "^2.9 | ^3.0",
-                "laravel/pint": "^1.20",
-                "nunomaduro/collision": "^7.11 | ^8.5",
-                "orchestra/testbench": "^9.9 | ^10.0",
-                "pestphp/pest": "^2.36 | ^3.7",
-                "pestphp/pest-plugin-laravel": "^2.4 | ^3.0",
-                "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan-deprecation-rules": "^1.2 | ^2.0",
-                "phpstan/phpstan-phpunit": "^1.4 | ^2.0",
-                "phpunit/phpunit": "^10.5 | ^11.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Webfox\\LaravelBackedEnums\\LaravelBackedEnumsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webfox\\LaravelBackedEnums\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Webfox Developments Ltd",
-                    "email": "developers@webfox.co.nz",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Supercharge your PHP8 backed enums with superpowers like localization support and fluent comparison methods.",
-            "homepage": "https://github.com/webfox/laravel-backed-enums",
-            "keywords": [
-                "laravel",
-                "laravel-backed-enums",
-                "webfox"
-            ],
-            "support": {
-                "issues": "https://github.com/webfox/laravel-backed-enums/issues",
-                "source": "https://github.com/webfox/laravel-backed-enums/tree/v2.6.1"
-            },
-            "time": "2025-03-05T05:33:48+00:00"
-        },
-        {
             "name": "webmozart/assert",
             "version": "1.11.0",
             "source": {
@@ -11421,6 +11352,56 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
+        },
+        {
+            "name": "yasin_tgh/laravel-postman",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yasintqvi/laravel-postman.git",
+                "reference": "8db7bbb0a21280bc9f9c88d289f68fcfe41cb39b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yasintqvi/laravel-postman/zipball/8db7bbb0a21280bc9f9c88d289f68fcfe41cb39b",
+                "reference": "8db7bbb0a21280bc9f9c88d289f68fcfe41cb39b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.1",
+                "symfony/console": "^6.0|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "logo": "https://i.imgur.com/wt0yMs7.png",
+                    "providers": [
+                        "YasinTgh\\LaravelPostman\\PostmanServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YasinTgh\\LaravelPostman\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yasin taghavi",
+                    "email": "mrtqvi@yahoo.com"
+                }
+            ],
+            "description": "A powerful package to automatically generate Postman collections from your Laravel routes with intelligent organization and rich documentation capabilities.",
+            "support": {
+                "issues": "https://github.com/yasintqvi/laravel-postman/issues",
+                "source": "https://github.com/yasintqvi/laravel-postman/tree/v1.3.1"
+            },
+            "time": "2025-08-01T08:25:42+00:00"
         }
     ],
     "aliases": [],
