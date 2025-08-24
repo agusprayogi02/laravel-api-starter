@@ -144,6 +144,7 @@ return [
     |
     */
     'output' => [
+        'driver' => env('POSTMAN_STORAGE_DISK', 'local'),
         // Storage path for generated files
         'path' => storage_path('postman'),
 
