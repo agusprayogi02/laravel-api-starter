@@ -8,19 +8,23 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @throws ApiDumpException
  */
-function ddapi(mixed $data)
-{
-    throw new ApiDumpException($data);
+if (!function_exists('ddapi')) {
+    function ddapi(mixed $data)
+    {
+        throw new ApiDumpException($data);
+    }
 }
 
-function getRawSql($query): string
-{
-    if ($query instanceof \Illuminate\Database\Query\Builder || $query instanceof Builder) {
-        return Str::replaceArray(
-            '?',
-            array_map(fn($b) => is_string($b) ? DB::connection()->getPdo()->quote($b) : $b, $query->getBindings()),
-            $query->toSql()
-        );
+if (!function_exists('getRawSql')) {
+    function getRawSql($query): string
+    {
+        if ($query instanceof \Illuminate\Database\Query\Builder || $query instanceof Builder) {
+            return Str::replaceArray(
+                '?',
+                array_map(fn($b) => is_string($b) ? DB::connection()->getPdo()->quote($b) : $b, $query->getBindings()),
+                $query->toSql()
+            );
+        }
+        return '$query must be instance of Query\Builder or Eloquent\Builder';
     }
-    return '$query must be instance of Query\Builder or Eloquent\Builder';
 }
