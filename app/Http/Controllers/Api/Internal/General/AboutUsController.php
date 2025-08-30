@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Internal\General;
 
 use App\Exceptions\RestfulApiException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\General\AboutUs\StoreAboutUsRequest;
+use App\Http\Requests\General\AboutUs\UpdateAboutUsRequest;
 use App\Http\Resources\General\AboutUs\AboutUsResource;
 use App\Http\Resources\General\AboutUs\AboutUsResourceCollection;
 use App\Models\General\AboutUs;
@@ -15,7 +17,6 @@ use Dentro\Yalr\Attributes\Name;
 use Dentro\Yalr\Attributes\Post;
 use Dentro\Yalr\Attributes\Prefix;
 use Dentro\Yalr\Attributes\Put;
-use Illuminate\Http\Request;
 
 #[Prefix('about-us')]
 #[Name('about-us', true, true)]
@@ -62,10 +63,10 @@ class AboutUsController extends Controller
      * @throws RestfulApiException
      */
     #[Post('', name: 'store')]
-    public function store(Request $request, AboutUsService $service)
+    public function store(StoreAboutUsRequest $request, AboutUsService $service)
     {
         $response = $service->addNewData(
-            requestedData: $request->post(),
+            requestedData: $request->validated(),
         );
 
         return $this->response(
@@ -78,11 +79,11 @@ class AboutUsController extends Controller
      * @throws RestfulApiException
      */
     #[Put('{aboutUs}', name: 'update')]
-    public function update(AboutUs $aboutUs, Request $request, AboutUsService $service)
+    public function update(AboutUs $aboutUs, UpdateAboutUsRequest $request, AboutUsService $service)
     {
         $service->updateDataById(
             idOrModel: $aboutUs,
-            requestedData: $request->post(),
+            requestedData: $request->validated(),
         );
 
         return $this->response(

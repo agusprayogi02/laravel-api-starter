@@ -13,26 +13,25 @@ class GenerateQueryCommand extends Command
      *
      * @var string
      */
-    protected $signature = "make:query {name : query filename}";
+    protected $signature = 'make:query {name : The name of the query class}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command for generate queries';
-
+    protected $description = 'Generate query builder class for advanced database queries';
 
     protected Filesystem $files;
-    protected const STUB_PATH = __DIR__ . '/../../../stubs/Query.stub';
+
+    protected const STUB_PATH = __DIR__.'/../../../stubs/Query.stub';
+
     protected string $targetPath;
+
     protected string $singularClassName;
+
     protected string $singularModelName;
 
-
-    /**
-     * @param Filesystem $files
-     */
     public function __construct(Filesystem $files)
     {
         parent::__construct();
@@ -40,23 +39,23 @@ class GenerateQueryCommand extends Command
         $this->files = $files;
     }
 
-
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->setSingularClassName()
             ->setSingularModelName()
             ->setTargetFilePath()
             ->makeDirectory();
 
-
-        if (!$this->files->exists($this->targetPath)) {
+        if (! $this->files->exists($this->targetPath)) {
             $this->files->put($this->targetPath, $this->getTemplateFileContent());
-            $this->info("File : {$this->targetPath} created");
+            $this->info("✅ Query class created: {$this->targetPath}");
+            $this->info("🎉 Successfully created query class: {$this->singularClassName}");
         } else {
-            $this->info("File : {$this->targetPath} already exits");
+            $this->warn("⚠️  Query class already exists: {$this->targetPath}");
+            $this->comment('ℹ️  File already exists, no changes made.');
         }
     }
 
@@ -64,24 +63,23 @@ class GenerateQueryCommand extends Command
     {
         $singularClassName = $this->singularClassName;
 
-        $explodedClassName = explode("/", $singularClassName);
+        $explodedClassName = explode('/', $singularClassName);
 
-        $namespace = "";
-        $explodedNamespace = explode("/", $singularClassName);
-
+        $namespace = '';
+        $explodedNamespace = explode('/', $singularClassName);
 
         $singularModelName = $this->singularModelName;
-        $explodedModelName = explode("/", $singularModelName);
+        $explodedModelName = explode('/', $singularModelName);
         // when namespace is more than 1 segment, remove last part because it is class name, and get previous part because its namespace dir
         if (count($explodedNamespace) > 1) {
             array_pop($explodedNamespace);
-            $namespace = "\\" . implode("\\", $explodedNamespace);
+            $namespace = '\\'.implode('\\', $explodedNamespace);
         }
 
         return [
-            'NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_query_dir", "app/Queries"))) . $namespace,
+            'NAMESPACE' => ucwords(str_replace('/', '\\', config('services.target_query_dir', 'app/Queries'))).$namespace,
             'CLASS_NAME' => end($explodedClassName),
-            'MODEL_NAME' => end($explodedModelName)
+            'MODEL_NAME' => end($explodedModelName),
         ];
     }
 
@@ -99,29 +97,31 @@ class GenerateQueryCommand extends Command
     private function setSingularClassName(): self
     {
         $this->singularClassName = ucwords(Pluralizer::singular($this->argument('name')));
+
         return $this;
     }
 
     private function setSingularModelName(): self
     {
-        $modelname = $this->argument("name");
-        $modelname = str_replace("Query", "", $modelname);
+        $modelname = $this->argument('name');
+        $modelname = str_replace('Query', '', $modelname);
 
         $this->singularModelName = ucwords(Pluralizer::singular($modelname));
+
         return $this;
     }
 
     private function setTargetFilePath(): self
     {
         $className = $this->singularClassName;
-        $this->targetPath = base_path(config("services.target_query_dir", "app/Queries")) . "/$className.php";
+        $this->targetPath = base_path(config('services.target_query_dir', 'app/Queries'))."/$className.php";
 
         return $this;
     }
 
     private function makeDirectory(): self
     {
-        if (!$this->files->isDirectory(dirname($this->targetPath))) {
+        if (! $this->files->isDirectory(dirname($this->targetPath))) {
             $this->files->makeDirectory(dirname($this->targetPath), 0777, true, true);
         }
 

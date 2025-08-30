@@ -17,4 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-"laradumps.yaml" 
+/.junie
+/.cursor
+/laradumps.yaml

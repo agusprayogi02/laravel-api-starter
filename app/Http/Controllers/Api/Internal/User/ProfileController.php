@@ -10,7 +10,6 @@ use App\Services\User\ProfileService;
 use Dentro\Yalr\Attributes\Get;
 use Dentro\Yalr\Attributes\Name;
 use Dentro\Yalr\Attributes\Prefix;
-use Illuminate\Http\Request;
 
 #[Prefix('profile')]
 #[Name('profile', true, true)]

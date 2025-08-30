@@ -1,66 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel API Starter Kit
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A powerful and feature-rich Laravel starter kit for building REST APIs with modern development tools and best practices.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Core Features
+- 🚀 **Laravel 12** - Latest Laravel framework
+- 🔐 **Authentication** - Laravel Sanctum for API authentication
+- 👥 **Role & Permissions** - Spatie Laravel Permission package
+- 📁 **Media Management** - Spatie Media Library for file handling
+- 🔍 **Advanced Querying** - Spatie Query Builder for filtering and sorting
+- 📄 **API Pagination** - JSON API pagination support
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Development Tools
+- 🛠️ **Custom Artisan Commands** - Generators for Service, API Controller, Query Builder
+- 📮 **Postman Integration** - Auto-generate Postman collections
+- 🐛 **Debugging Tools** - Laradumps for enhanced debugging
+- ⚡ **Laravel Boost** - MCP server for improved development experience
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Packages Included
+- `spatie/laravel-permission` - Role and permission management
+- `spatie/laravel-medialibrary` - File and media management
+- `spatie/laravel-query-builder` - Advanced API filtering
+- `spatie/laravel-json-api-paginate` - JSON API pagination
+- `laravel/sanctum` - API authentication
+- `laradumps/laradumps` - Advanced debugging
+- `laravel/boost` - Laravel MCP server
 
-## Learning Laravel
+## Quick Start
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Installation
+```bash
+# Clone the repository
+git clone <repository-url>
+cd laravel-api-starter
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Install dependencies
+composer install
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Setup environment
+copy .env.example .env
+php artisan key:generate
 
-## Laravel Sponsors
+# Configure database and run migrations
+php artisan migrate
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Setup development tools
+php artisan boost:install
+php artisan laradumps:install
+```
 
-### Premium Partners
+📖 **Detailed installation guide:** [docs/installation.md](docs/installation.md)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Custom Commands
+
+This starter kit includes powerful Artisan commands to speed up development:
+
+- `php artisan make:service {name}` - Generate service with request classes
+- `php artisan make:api {name}` - Generate API controller with resources
+- `php artisan make:query {name}` - Generate query builder class
+- `php artisan postman:generate-groups` - Generate Postman collection
+
+📖 **Complete commands documentation:** [docs/console-commands.md](docs/console-commands.md)
+
+## Architecture
+
+- **Services** - Business logic layer
+- **Repositories** - Data access layer with query builders
+- **Resources** - API response transformation
+- **Requests** - Input validation and authorization
+
+## Requirements
+
+- PHP 8.3+
+- Composer
+- PostgreSQL (default) or other database
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

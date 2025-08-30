@@ -4,6 +4,8 @@ namespace *NAMESPACE*;
 
 use App\Exceptions\RestfulApiException;
 use App\Http\Controllers\Controller;
+use *REQUEST_NAMESPACE*\Store*CLASS_NAME*Request;
+use *REQUEST_NAMESPACE*\Update*CLASS_NAME*Request;
 use *RESOURCE_NAMESPACE*\*CLASS_NAME*Resource;
 use *RESOURCE_NAMESPACE*\*CLASS_NAME*ResourceCollection;
 use App\Models\*CLASS_NAME*;
@@ -52,7 +54,7 @@ class *CLASS_NAME*Controller extends Controller
      * @throws RestfulApiException
     */
     #[Post('', name: 'store')]
-    public function store(Request $request, *CLASS_NAME*Service $service)
+    public function store(Store*CLASS_NAME*Request $request, *CLASS_NAME*Service $service)
     {
         $response = $service->addNewData(
             requestedData: $request->post()
@@ -81,7 +83,7 @@ class *CLASS_NAME*Controller extends Controller
      * @throws RestfulApiException
      */
     #[Put('{*SNAKE_NAME*}', name: 'update')]
-    public function update(Request $request, *CLASS_NAME* $*SNAKE_NAME*, *CLASS_NAME*Service $service)
+    public function update(Update*CLASS_NAME*Request $request, *CLASS_NAME* $*SNAKE_NAME*, *CLASS_NAME*Service $service)
     {
         $service->updateDataById($*SNAKE_NAME*, $request->post());
 

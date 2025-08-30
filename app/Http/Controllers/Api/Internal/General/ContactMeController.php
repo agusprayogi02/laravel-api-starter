@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Internal\General;
 
 use App\Exceptions\RestfulApiException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\General\ContactMe\StoreContactMeRequest;
 use App\Http\Resources\General\ContactMe\ContactMeResource;
 use App\Http\Resources\General\ContactMe\ContactMeResourceCollection;
 use App\Models\General\ContactMe;
@@ -14,7 +15,6 @@ use Dentro\Yalr\Attributes\Middleware;
 use Dentro\Yalr\Attributes\Name;
 use Dentro\Yalr\Attributes\Post;
 use Dentro\Yalr\Attributes\Prefix;
-use Illuminate\Http\Request;
 
 #[Prefix('contact-me')]
 #[Name('contact-me', true, true)]
@@ -60,10 +60,10 @@ class ContactMeController extends Controller
      * @throws RestfulApiException
      */
     #[Post('', name: 'store')]
-    public function store(Request $request, ContactMeService $service)
+    public function store(StoreContactMeRequest $request, ContactMeService $service)
     {
         $response = $service->addNewData(
-            requestedData: $request->post(),
+            requestedData: $request->validated(),
         );
 
         return $this->response(

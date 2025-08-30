@@ -14,22 +14,29 @@ class GenerateApiControllerCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:api {name : query filename}';
+    protected $signature = 'make:api {name : The name of the API controller}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command for generate api controller';
+    protected $description = 'Generate API controller with resource and collection classes';
 
     protected Filesystem $files;
-    protected const STUB_PATH = __DIR__ . '/../../../stubs/Api.stub';
-    protected const RESOURCE_PATH = __DIR__ . '/../../../stubs/Resource.stub';
-    protected const COLLECTION_PATH = __DIR__ . '/../../../stubs/Collection.stub';
+
+    protected const STUB_PATH = __DIR__.'/../../../stubs/Api.stub';
+
+    protected const RESOURCE_PATH = __DIR__.'/../../../stubs/Resource.stub';
+
+    protected const COLLECTION_PATH = __DIR__.'/../../../stubs/Collection.stub';
+
     protected string $targetPath;
+
     protected string $collectionPath;
+
     protected string $resourcePath;
+
     protected string $singularClassName;
 
     /**
@@ -41,31 +48,39 @@ class GenerateApiControllerCommand extends Command
             ->setTargetFilePath()
             ->makeDirectory();
 
-        if (!$this->files->exists($this->targetPath)) {
+        $created = 0;
+
+        if (! $this->files->exists($this->targetPath)) {
             $this->files->put($this->targetPath, $this->getTemplateFileContent(self::STUB_PATH));
-            $this->info("File : {$this->targetPath} created");
+            $this->info("✅ Controller created: {$this->targetPath}");
+            $created++;
         } else {
-            $this->info("File : {$this->targetPath} already exits");
+            $this->warn("⚠️  Controller already exists: {$this->targetPath}");
         }
 
-        if (!$this->files->exists($this->collectionPath)) {
+        if (! $this->files->exists($this->collectionPath)) {
             $this->files->put($this->collectionPath, $this->getTemplateFileContent(self::COLLECTION_PATH));
-            $this->info("File : {$this->collectionPath} created");
+            $this->info("✅ Resource Collection created: {$this->collectionPath}");
+            $created++;
         } else {
-            $this->info("File : {$this->collectionPath} already exits");
+            $this->warn("⚠️  Resource Collection already exists: {$this->collectionPath}");
         }
 
-        if (!$this->files->exists($this->resourcePath)) {
+        if (! $this->files->exists($this->resourcePath)) {
             $this->files->put($this->resourcePath, $this->getTemplateFileContent(self::RESOURCE_PATH));
-            $this->info("File : {$this->resourcePath} created");
+            $this->info("✅ Resource created: {$this->resourcePath}");
+            $created++;
         } else {
-            $this->info("File : {$this->resourcePath} already exits");
+            $this->warn("⚠️  Resource already exists: {$this->resourcePath}");
+        }
+
+        if ($created > 0) {
+            $this->info("🎉 Successfully created {$created} file(s) for API controller: {$this->singularClassName}");
+        } else {
+            $this->comment('ℹ️  All files already exist, no changes made.');
         }
     }
 
-    /**
-     * @param Filesystem $files
-     */
     public function __construct(Filesystem $files)
     {
         parent::__construct();
@@ -88,62 +103,63 @@ class GenerateApiControllerCommand extends Command
     {
         $singularClassName = $this->singularClassName;
 
-        $explodedClassName = explode("/", $singularClassName);
+        $explodedClassName = explode('/', $singularClassName);
 
-        $namespace = "";
-        $explodedNamespace = explode("/", $singularClassName);
+        $namespace = '';
+        $explodedNamespace = explode('/', $singularClassName);
 
         // when namespace is more than 1 segment, remove last part because it is class name, and get previous part because its namespace dir
         if (count($explodedNamespace) > 1) {
             array_pop($explodedNamespace);
-            $namespace = "\\" . implode("\\", $explodedNamespace);
+            $namespace = '\\'.implode('\\', $explodedNamespace);
         }
 
-        $prefix = "";
+        $prefix = '';
         foreach ($explodedClassName as $item) {
             $prefix .= Str::snake($item);
             if ($item !== end($explodedClassName)) {
-                $prefix .= "/";
+                $prefix .= '/';
             }
         }
 
         return [
-            'NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_controller_dir", "app/Http/Controllers/Api/Internal"))) . $namespace,
-            'RESOURCE_NAMESPACE' => ucwords(str_replace("/", "\\", config("services.target_resource_dir", "app/Http/Resources"))) . "\\" . str_replace("/", "\\", $singularClassName),
+            'NAMESPACE' => ucwords(str_replace('/', '\\', config('services.target_controller_dir', 'app/Http/Controllers/Api/Internal'))).$namespace,
+            'REQUEST_NAMESPACE' => ucwords(str_replace('/', '\\', config('services.target_request_dir', 'app/Http/Requests'))).'\\'.str_replace('/', '\\', $singularClassName),
+            'RESOURCE_NAMESPACE' => ucwords(str_replace('/', '\\', config('services.target_resource_dir', 'app/Http/Resources'))).'\\'.str_replace('/', '\\', $singularClassName),
             'PREFIX_NAME' => $prefix,
-            'ROUTE_NAME' => str_replace("/", ".", $prefix),
+            'ROUTE_NAME' => str_replace('/', '.', $prefix),
             'CLASS_NAME' => end($explodedClassName),
             'SNAKE_NAME' => Str::snake(end($explodedClassName)),
-            "SINGULAR_NAME" => str_replace("/", "\\", $singularClassName),
+            'SINGULAR_NAME' => str_replace('/', '\\', $singularClassName),
         ];
     }
 
     private function setSingularClassName(): self
     {
         $this->singularClassName = ucwords(Pluralizer::singular($this->argument('name')));
+
         return $this;
     }
 
     private function setTargetFilePath(): self
     {
         $className = $this->singularClassName;
-        $explodedClassName = explode("/", $className);
+        $explodedClassName = explode('/', $className);
         $name = end($explodedClassName);
 
-        $this->targetPath = base_path(config("services.target_controller_dir", "app/Http/Controllers/Api/Internal")) . "/$className" . "Controller.php";
-        $this->collectionPath = base_path(config("services.target_resource_dir", "app/Http/Resources")) . "/" . $className . "/" . $name . "ResourceCollection.php";
-        $this->resourcePath = base_path(config("services.target_resource_dir", "app/Http/Resources")) . "/" . $className . "/" . $name . "Resource.php";
+        $this->targetPath = base_path(config('services.target_controller_dir', 'app/Http/Controllers/Api/Internal'))."/$className".'Controller.php';
+        $this->collectionPath = base_path(config('services.target_resource_dir', 'app/Http/Resources')).'/'.$className.'/'.$name.'ResourceCollection.php';
+        $this->resourcePath = base_path(config('services.target_resource_dir', 'app/Http/Resources')).'/'.$className.'/'.$name.'Resource.php';
 
         return $this;
     }
 
-
     private function makeDirectory(): self
     {
-        if (!$this->files->isDirectory(dirname($this->targetPath))) {
+        if (! $this->files->isDirectory(dirname($this->targetPath))) {
             $this->files->makeDirectory(dirname($this->targetPath), 0777, true, true);
         }
-        if (!$this->files->isDirectory(dirname($this->resourcePath))) {
+        if (! $this->files->isDirectory(dirname($this->resourcePath))) {
             $this->files->makeDirectory(dirname($this->resourcePath), 0777, true, true);
         }
 
